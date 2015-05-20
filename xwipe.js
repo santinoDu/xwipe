@@ -3,7 +3,7 @@
  * Email : dujia_email@163.com
  */
 
-function Xwipe(options, el, tab){
+function Xwipe(el, options, tab){
     this.el = el;
     this.element = el.children[0];
     if(this.element.children.length == 2){
@@ -13,11 +13,12 @@ function Xwipe(options, el, tab){
     }
     this.slides = this.element.children;
     this.sLength = this.slides.length;
+    this.options = options || {};
     this.options = {
-        curIndex : options.curIndex || 0,
-        speed : options.speed || 300,
-        auto : options.auto || 0,
-        callback : options.callback || null
+        curIndex : this.options.curIndex || 0,
+        speed : this.options.speed || 300,
+        auto : this.options.auto || 0,
+        callback : this.options.callback || null
     };
     this.autoTimer = 0;
     this.startStatus = {};

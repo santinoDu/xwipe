@@ -91,10 +91,10 @@
     var xwipe = new Xwipe(myXwipe, options,tab);
 
     document.getElementById("prev").addEventListener("click", function () {
-        xwipe.goTo(xwipe.options.curIndex - 1);
+        xwipe.prev();
     },false);
     document.getElementById("next").addEventListener("click", function () {
-        xwipe.goTo(xwipe.options.curIndex + 1);
+        xwipe.next();
     },false);
 </script>
 </body>
