@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <title></title>
+    <style>
+        *{ margin:0; padding:0;}
+        body{ font-size: 2em;}
+        .xwipe {
+            overflow: hidden;
+            visibility: hidden;
+        }
+        .xwipe-wrap {
+            overflow: hidden;
+        }
+        .xwipe-wrap > div {
+            float:left;
+            position: relative;
+        }
+        .xwipe-wrap > div b{
+            display: block;
+            padding: 100px 0;
+            text-align: center;
+            color: #fff;
+        }
+        .xwipe-wrap > div:nth-child(2n+1){
+            background: blue;;
+        }
+        .xwipe-wrap > div:nth-child(2n){
+            background: green;
+        }
+
+        .tab li{
+            float: left;
+            list-style-type: none;
+            width: 10%;
+            font-size: 25px;;
+        }
+        .on{ color: red;}
+        .clearfix:after{
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+<ul id="tab" class="tab clearfix">
+    <li>0</li>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+</ul>
+
+<div id='xwipe' class='xwipe'>
+    <div class='xwipe-wrap'>
+        <div><b>0</b></div>
+        <div><b>1</b></div>
+        <div><b>2</b></div>
+        <div><b>3</b></div>
+        <div><b>4</b></div>
+        <div><b>5</b></div>
+        <div><b>6</b></div>
+        <div><b>7</b></div>
+    </div>
+</div>
+<div>
+    <a id="prev" href="javascript:;">prev</a>
+    <a id="next" href="javascript:;">next</a>
+</div>
+<script src="xwipe.min.js"></script>
+<script>
+    function xwipeCallback(index){
+
+    }
+    var myXwipe = document.getElementById("xwipe"),
+        tab = document.getElementById("tab"),
+        options = {
+            callback : xwipeCallback,
+            auto : 3000,
+            curIndex : 0,
+            speed : 300
+        }
+
+    var xwipe = new Xwipe(myXwipe, options,tab);
+
+    document.getElementById("prev").addEventListener("click", function () {
+        xwipe.goTo(xwipe.options.curIndex - 1);
+    },false);
+    document.getElementById("next").addEventListener("click", function () {
+        xwipe.goTo(xwipe.options.curIndex + 1);
+    },false);
+</script>
+</body>
+</html>
