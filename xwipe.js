@@ -23,8 +23,8 @@ function Xwipe(el, options, tab){
     this.autoTimer = 0;
     this.startStatus = {};
     this.endStatus = {};
-    this.delta = {};//Î»ÒÆ²î
-    this.slidePos = [];//´æ´¢Ã¿¸öslideµÄtransformË®Æ½Î»ÒÆÖµ
+    this.delta = {};//ä½ç§»å·®
+    this.slidePos = [];//å­˜å‚¨æ¯ä¸ªslideçš„transformæ°´å¹³ä½ç§»å€¼
     this.canSkip = true;
     this.isScrollY;
     this.tab = tab || null;
@@ -103,9 +103,10 @@ Xwipe.prototype = {
         };
         this.isScrollY = undefined;
         this.clearTimer();
+        this.canSlide = false;
     },
     touchMove : function(e){
-        if ( e.touches.length > 1 || e.scale && e.scale !== 1) return;//½ûÖ¹¶à¸öÊÖÖ¸»¬¶¯
+        if ( e.touches.length > 1 || e.scale && e.scale !== 1) return;//ç¦æ­¢å¤šä¸ªæ‰‹æŒ‡æ»‘åŠ¨
         var touches = e.touches[0];
         this.endStatus = {
             x: touches.pageX,
@@ -124,9 +125,10 @@ Xwipe.prototype = {
             this.translate(this.options.curIndex, this.delta.x + this.slidePos[this.circle(this.options.curIndex)], 0);
             if(this.sLength != 1) this.translate(this.circle(this.options.curIndex + 1), this.delta.x + this.slidePos[this.circle(this.options.curIndex + 1)], 0);
         }
+        this.canSlide = true;
     },
     touchEnd : function (e) {
-        if(!this.isScrollY){
+        if(!this.isScrollY && this.canSlide){
             var isValidSlide = false;
             if( Math.abs(this.delta.x) > this.width/2 || this.delta.time < 250 && Math.abs(this.delta.x) > 20){
                 isValidSlide = true;
@@ -142,11 +144,11 @@ Xwipe.prototype = {
             if(this.sLength != 1) this.medium(this.circle(this.options.curIndex - 1), -this.width, (isValidSlide && (this.delta.x > 0)) ? 0 : this.options.speed);
             this.medium(this.options.curIndex, 0, this.options.speed);
             if(this.sLength != 1) this.medium(this.circle(this.options.curIndex + 1), this.width, (isValidSlide && (this.delta.x < 0)) ? 0 : this.options.speed);
-            this.setTimer();
         }
+        this.setTimer();
     },
     getDirection : function (to) {
-        return (to - this.options.curIndex)*(Math.abs(to - this.options.curIndex) > this.sLength/2 ? -1 : 1) > 0 ? 1 : -1; //1ÏòÓÒ»¬¶¯£¬-1Ïò×ó»¬¶¯
+        return (to - this.options.curIndex)*(Math.abs(to - this.options.curIndex) > this.sLength/2 ? -1 : 1) > 0 ? 1 : -1; //1å‘å³æ»‘åŠ¨ï¼Œ-1å‘å·¦æ»‘åŠ¨
     },
     goTo : function (to) {
         if(this.options.curIndex == to || !this.canSkip) return;
